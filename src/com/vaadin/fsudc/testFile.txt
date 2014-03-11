@@ -1,3 +1,4 @@
 TEST FILE
 altered test file from eclipse
+more tests....................
 TEST
