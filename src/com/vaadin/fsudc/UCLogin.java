@@ -58,6 +58,9 @@ public class UCLogin {
 	        	
 	        loginForm.close();	        
 	        checkMember(user);
+	        
+	        ForumUI forum = new ForumUI();
+		UI.getCurrent().addWindow(forum);
 		
 		} catch (JSchException e) {			
 			showError("Please enter your <i>FSU CS</i> credentials");			
@@ -71,8 +74,6 @@ public class UCLogin {
 		try {
 			dbTable = new TblMember();
 			dbTable.findMember(name);
-			
-			loginForm.displayMessage(name);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
