@@ -10,11 +10,11 @@ import com.vaadin.ui.Window;
 public class ForumUI extends Window {
 
 	public Table table = new Table();
-    public HorizontalLayout forumLayout;
+        public HorizontalLayout forumLayout;
 	
 	public ForumUI () {
 		
-		super("FSUDC Discussion Board");    	
+	super("FSUDC Discussion Board");    	
     	center();
     	
         forumLayout = new HorizontalLayout();  
@@ -37,5 +37,4 @@ public class ForumUI extends Window {
         setContent(forumLayout);      
 
 	}
-	
 }
