@@ -26,6 +26,7 @@ public class FsudcUI extends UI {
 		layout.setSizeFull();
 		setContent(layout);
 		
-		new UCLogin();
+		//new UCLogin();  Until lockout problems resolved
+		new CtrForum();
 	}
 }
