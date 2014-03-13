@@ -59,8 +59,7 @@ public class UCLogin {
 	        loginForm.close();	        
 	        checkMember(user);
 	        
-	        ForumUI forum = new ForumUI();
-		UI.getCurrent().addWindow(forum);
+	        new CtrForum();
 		
 		} catch (JSchException e) {			
 			showError("Please enter your <i>FSU CS</i> credentials");			
