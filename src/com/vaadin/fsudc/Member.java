@@ -2,25 +2,25 @@ package com.vaadin.fsudc;
 
 public class Member {
 	
-	private String csName;
+	private String csEmail;
 	private Profile userProfile;
 	private String status;
 	
-	public Member (String name) {
+	public Member (String user) {
 		
-		setCSName(name);
-		setProfile(new Profile(name));
+		setCSEmail(user);
+		setProfile(new Profile(user));
 		setStatus("active");
 	}
 	
-	public void setCSName(String name) {
+	public void setCSEmail(String user) {
 		
-		csName = name;
+		csEmail = user;
 	}
 	
-	public String getCSName() {
+	public String getCSEmail() {
 		
-		return csName;
+		return csEmail;
 	}
 	
 	public void setProfile(Profile profile) {
@@ -33,7 +33,7 @@ public class Member {
 		return userProfile;
 	}
 	
-public void setStatus(String stat) {
+	public void setStatus(String stat) {
 		
 		status = stat;
 	}
