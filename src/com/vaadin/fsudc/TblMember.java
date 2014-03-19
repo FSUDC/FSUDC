@@ -41,10 +41,12 @@ public class TblMember extends Window {
 			}
 	}
 	
-	public void findMember(String user) {
+	public boolean findMember(String user) {
+		
+		boolean found = false;
 		
 		String query = "SELECT * FROM Member"
-				+ " WHERE csName = '" + user + "';";
+				+ " WHERE csEmail = '" + user + "';";
 		
 		openTable();
 		
@@ -57,6 +59,8 @@ public class TblMember extends Window {
 				member = new Member(user);
 				addMember(member);
 			}
+			else
+				found = true;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -64,13 +68,15 @@ public class TblMember extends Window {
 		} finally {
 			closeTable();
 		}
+		
+		return found;
 	}
 	
 	public void addMember (Member mbr) {
 		
-		String update = "INSERT INTO Member (csName, loginStatus, profileID)"
+		String update = "INSERT INTO Member (csEmail, loginStatus, profileID)"
 				+ " VALUES ('"
-				+ mbr.getCSName() + "', '" + mbr.getStatus() + "', profileID + 1);";
+				+ mbr.getCSEmail() + "', '" + mbr.getStatus() + "', profileID + 1);";
 		
 		openTable();
 		
