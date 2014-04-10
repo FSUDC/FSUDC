@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import com.vaadin.server.Page;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.Window;
 
 @SuppressWarnings("serial")
@@ -16,7 +14,7 @@ public class TblMember extends Window {
 	private ResultSet result = null;
 	private Member member = null;	
 	
-	public TblMember () throws SQLException {
+	public TblMember () {
 	}
 
 	public void openTable() {
@@ -72,11 +70,66 @@ public class TblMember extends Window {
 		return found;
 	}
 	
+	public String [] listOfMembers() {
+		
+		String update = "SELECT csEmail FROM Member;";
+		String [] user = new String[countMembers()];
+		int count = 0;		
+		
+		openTable();
+		
+		try {
+			statement = connect.createStatement();
+			statement.execute(update);
+			
+			result = statement.getResultSet();
+			
+			while (result.next()) {
+				user[count] = result.getString("csEmail");
+				++count;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			closeTable();
+		}
+		
+		return user;
+	}
+	
+	public int countMembers () {
+		
+		int count = 0;
+		String update = "SELECT COUNT(*) FROM Member;";
+		
+		openTable();
+		
+		try {
+			statement = connect.createStatement();
+			statement.execute(update);
+			
+			result = statement.getResultSet();
+			
+			while (result.next()) {
+				count= result.getInt("COUNT(*)");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			closeTable();
+		}
+		
+		return count;
+	}
+	
 	public void addMember (Member mbr) {
 		
-		String update = "INSERT INTO Member (csEmail, loginStatus, profileID)"
-				+ " VALUES ('"
-				+ mbr.getCSEmail() + "', '" + mbr.getStatus() + "', profileID + 1);";
+		String update = "INSERT INTO Member (csEmail, loginStatus)" +
+				" VALUES ('" + mbr.getCSEmail() + "', '" + mbr.getStatus() + "');";
 		
 		openTable();
 		
@@ -84,18 +137,14 @@ public class TblMember extends Window {
 			statement = connect.createStatement();
 			statement.executeUpdate(update);
 			
+			TblProfile profile = new TblProfile();
+			profile.addProfile(mbr);
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			
 		} finally {
 			closeTable();
-		}		
-	}
-	
-	public void showError(String errorString) {
-		new Notification("<center>Error</center>",
-			    "<br/>" + errorString,
-			    Notification.Type.WARNING_MESSAGE, true)
-			    .show(Page.getCurrent());
+		}			
 	}
 }
