@@ -1,6 +1,5 @@
 package com.vaadin.fsudc;
 
-import java.sql.SQLException;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import javax.mail.*;
@@ -59,7 +58,9 @@ public class UCLogin {
 			  
 			loginForm.close();	    
 
-			UI.getCurrent().addWindow(verifyForm);			
+			UI.getCurrent().addWindow(verifyForm);	
+			
+			UI.getCurrent().getSession().setAttribute("user", email);
 		}
 		
 		else
@@ -74,7 +75,8 @@ public class UCLogin {
 		if (code.equals("GoNoles"))
 		{
 			verifyForm.close();
-			new CtrForum();
+			new CtrForum();			
+			UI.getCurrent().addWindow(new MemberListUI());					
 		}
 		
 		else
@@ -87,14 +89,8 @@ public class UCLogin {
 	public boolean checkMember(String email) {
 		
 		boolean found = false;
-		
-		try {
-			dbTable = new TblMember();
-			found = dbTable.findMember(email);
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		dbTable = new TblMember();
+		found = dbTable.findMember(email);
 		
 		return found;
 	}
@@ -117,14 +113,14 @@ public class UCLogin {
 		Session session = Session.getDefaultInstance(prop,
 				new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication("myemail@email.com","mypassword");
+						return new PasswordAuthentication("fsudc2014@outlook.com","BenAliciaMelissa");
 					}
 				});
 
 	    try{
 	    	Message msg = new MimeMessage(session);
 	    	
-	    	msg.setFrom(new InternetAddress("myemail@email.com"));
+	    	msg.setFrom(new InternetAddress("fsudc2014@outlook.com"));
 	    	
 	    	msg.addRecipient(Message.RecipientType.TO,
 	    			new InternetAddress(to));
