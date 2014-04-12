@@ -1,9 +1,18 @@
+/*
+ * File:    Member.java
+ * Author:  Alicia Gambill
+ * Date:    April 2014
+ * Project: FSUDC
+ *  
+ * Description: The entity class that represents member information.
+ */
+
 package com.vaadin.fsudc;
 
 public class Member {
 	
-	private String csEmail;
 	private Profile userProfile;
+	private String csEmail;	
 	private String status;
 	
 	public Member (String user) {
