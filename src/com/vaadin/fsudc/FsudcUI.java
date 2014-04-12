@@ -1,7 +1,15 @@
+/*
+ * File:    FsudcUI.java
+ * Author:  
+ * Date:    April 2014
+ * Project: FSUDC
+ *  
+ * Description: The startup user interface.
+ */
+
 package com.vaadin.fsudc;
 
 import javax.servlet.annotation.WebServlet;
-
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
@@ -14,6 +22,8 @@ import com.vaadin.ui.UI;
 
 public class FsudcUI extends UI {
 	
+	public CustomLayout layout;
+	
 	@WebServlet(value = "/*", asyncSupported = true)
 	@VaadinServletConfiguration(productionMode = false, ui = FsudcUI.class)
 	public static class Servlet extends VaadinServlet {
@@ -22,11 +32,12 @@ public class FsudcUI extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		
-		CustomLayout layout = new CustomLayout("Main");
+		// Retrieve and set HTML layout
+		layout = new CustomLayout("Main");
 		layout.setSizeFull();
 		setContent(layout);
 		
-		//new UCLogin();  Until lockout problems resolved
-		new CtrForum();
+		// Login
+		new UCLogin();
 	}
 }
