@@ -1,3 +1,12 @@
+/*
+ * File:    MySQLConnection.java
+ * Author:  Alicia Gambill
+ * Date:    April 2014
+ * Project: FSUDC
+ *  
+ * Description: The class that controls the MySQL connection for FSUDC.
+ */
+
 package com.vaadin.fsudc;
 
 import java.sql.Connection;
@@ -8,35 +17,35 @@ import com.vaadin.annotations.Theme;
 
 @Theme("fsudc")
 public class MySQLConnection {
-	
-    private static MySQLConnection mysql = new MySQLConnection();
+	  
+	  private static MySQLConnection mysql = new MySQLConnection();
     private static final String URL = "jdbc:mysql://localhost:3306/fsudc";
     private static final String USER = "root";
-    private static final String PASSWORD = "******";
+    private static final String PASSWORD = "root";
     private static final String DRIVER_CLASS = "com.mysql.jdbc.Driver"; 
     
     private MySQLConnection () {
     	
     	try {
-            Class.forName(DRIVER_CLASS).newInstance();
+          Class.forName(DRIVER_CLASS).newInstance();
             
         } catch (Exception e) {
             e.printStackTrace();
-		}
+		  }
     }
     
     private Connection createConnection () {
     	
     	Connection connect = null;
     	
-        try {
-            connect = DriverManager.getConnection(URL, USER, PASSWORD);
+      try {
+        connect = DriverManager.getConnection(URL, USER, PASSWORD);
             
-        } catch (SQLException e) {
-            System.out.println("ERROR: Database connection unsuccessful.");
-        }
+      } catch (SQLException e) {
+          System.out.println("ERROR: Database connection unsuccessful.");
+      }
         
-        return connect;
+      return connect;
     }   
     
     public static Connection getConnection() {
