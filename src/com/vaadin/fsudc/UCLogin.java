@@ -1,3 +1,12 @@
+/*
+ * File:    UCLogin.java
+ * Author:  Alicia Gambill
+ * Date:    April 2014
+ * Project: FSUDC
+ *  
+ * Description: The class that handles login interaction.
+ */
+
 package com.vaadin.fsudc;
 
 import java.util.Properties;
@@ -12,15 +21,20 @@ import com.vaadin.ui.Button.ClickEvent;
 
 public class UCLogin {
 	
-	private LoginUI loginForm = new LoginUI();
-	private VerifyUI verifyForm = new VerifyUI();
+	public VerifyUI verifyForm;
 	private TblMember dbTable;
+	public LoginUI loginForm;
 	
 	@SuppressWarnings("serial")
 	public UCLogin() {
-	
+		
+		loginForm = new LoginUI();
+		verifyForm = new VerifyUI();
+		
+		// Display login window
 		UI.getCurrent().addWindow(loginForm);
 		
+		// Button listeners 
 		loginForm.loginButton.addClickListener(new Button.ClickListener() {
 			public void buttonClick(ClickEvent event) {
 
@@ -38,12 +52,14 @@ public class UCLogin {
 		
 		String domain = "";
 		
+		// Email field blank
 		if (email.isEmpty())
 		{
 			showError("Please enter you FSU CS email.");
 			return;
 		}
 		
+		// Check email domain
 		StringTokenizer token = new StringTokenizer(email, "@");
 	        	
 		while(token.hasMoreElements())
@@ -53,16 +69,21 @@ public class UCLogin {
 		{
 			boolean found = checkMember(email);
 			
+			// New User
 			if (found == false)
 				sendEmail(email);
 			  
+			// Close login window
 			loginForm.close();	    
-
-			UI.getCurrent().addWindow(verifyForm);	
 			
+			// Display verification window
+			UI.getCurrent().addWindow(verifyForm);
+			
+			// Set session for user
 			UI.getCurrent().getSession().setAttribute("user", email);
 		}
 		
+		// Non CS Email
 		else
 		{
 			showError("Please enter a valid FSU CS email.");
@@ -72,6 +93,7 @@ public class UCLogin {
 
 	public void validateCode(String code) {
 		
+		// Correct Code
 		if (code.equals("GoNoles"))
 		{
 			verifyForm.close();
@@ -79,6 +101,7 @@ public class UCLogin {
 			UI.getCurrent().addWindow(new MemberListUI());					
 		}
 		
+		// Incorrect Code
 		else
 		{
 			showError("The verification code you entered is not correct.");
@@ -88,6 +111,7 @@ public class UCLogin {
 	
 	public boolean checkMember(String email) {
 		
+		// Look for member in database
 		boolean found = false;
 		dbTable = new TblMember();
 		found = dbTable.findMember(email);
@@ -104,12 +128,14 @@ public class UCLogin {
 	
 	private void sendEmail(String to){	
 				
+		// Set email properties
 		Properties prop = System.getProperties();
 		prop.put("mail.smtp.host", "smtp.live.com");
 		prop.put("mail.smtp.auth", true);
 		prop.put("mail.smtp.starttls.enable","true");
 		prop.put("mail.smtp.port", "587");
 		 
+		// Login information
 		Session session = Session.getDefaultInstance(prop,
 				new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
@@ -117,6 +143,7 @@ public class UCLogin {
 					}
 				});
 
+		// Set up email message and send
 	    try{
 	    	Message msg = new MimeMessage(session);
 	    	
@@ -137,6 +164,7 @@ public class UCLogin {
 	        
 	    	System.out.println("Your email has sent.");
 	    	
+	   // Email did not send
 	    }catch (MessagingException ex) {
 	    	ex.printStackTrace();
 	    	System.out.println("Your email did not send.");
