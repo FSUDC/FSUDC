@@ -17,7 +17,7 @@ import com.vaadin.ui.Window;
 @SuppressWarnings({ "serial"})
 public class LoginUI extends Window {
  
-	public CustomLayout windowLayout;
+  public CustomLayout windowLayout;
   public Button loginButton;
   public TextField email;
 	
