@@ -1,3 +1,12 @@
+/*
+ * File:    TblMember.java
+ * Author:  Alicia Gambill
+ * Date:    April 2014
+ * Project: FSUDC
+ *  
+ * Description: The class that handles database interaction for the Member table.
+ */
+
 package com.vaadin.fsudc;
 
 import java.sql.Connection;
@@ -41,22 +50,24 @@ public class TblMember extends Window {
 	
 	public boolean findMember(String user) {
 		
+		String query = "SELECT * FROM Member WHERE csEmail = '" + user + "';";
 		boolean found = false;
-		
-		String query = "SELECT * FROM Member"
-				+ " WHERE csEmail = '" + user + "';";
 		
 		openTable();
 		
+		// Search for member
 		try {
 			statement = connect.createStatement();
 			result= statement.executeQuery(query);
 			
+			// New Member
 			if (!result.next())
 			{
 				member = new Member(user);
 				addMember(member);
 			}
+			
+			// Already a member
 			else
 				found = true;
 			
@@ -65,25 +76,26 @@ public class TblMember extends Window {
 			
 		} finally {
 			closeTable();
-		}
-		
+		}		
 		return found;
 	}
 	
 	public String [] listOfMembers() {
 		
-		String update = "SELECT csEmail FROM Member;";
+		String query = "SELECT csEmail FROM Member;";
 		String [] user = new String[countMembers()];
 		int count = 0;		
 		
 		openTable();
 		
+		// Retrieve members in database
 		try {
 			statement = connect.createStatement();
-			statement.execute(update);
+			statement.execute(query);
 			
 			result = statement.getResultSet();
 			
+			// Store members in array
 			while (result.next()) {
 				user[count] = result.getString("csEmail");
 				++count;
@@ -94,24 +106,24 @@ public class TblMember extends Window {
 			
 		} finally {
 			closeTable();
-		}
-		
+		}		
 		return user;
 	}
 	
 	public int countMembers () {
 		
+		String query = "SELECT COUNT(*) FROM Member;";
 		int count = 0;
-		String update = "SELECT COUNT(*) FROM Member;";
 		
 		openTable();
 		
+		// Count members
 		try {
 			statement = connect.createStatement();
-			statement.execute(update);
+			statement.execute(query);
 			
 			result = statement.getResultSet();
-			
+
 			while (result.next()) {
 				count= result.getInt("COUNT(*)");
 			}
@@ -121,22 +133,23 @@ public class TblMember extends Window {
 			
 		} finally {
 			closeTable();
-		}
-		
+		}		
 		return count;
 	}
 	
 	public void addMember (Member mbr) {
 		
-		String update = "INSERT INTO Member (csEmail, loginStatus)" +
+		String query = "INSERT INTO Member (csEmail, loginStatus)" +
 				" VALUES ('" + mbr.getCSEmail() + "', '" + mbr.getStatus() + "');";
 		
 		openTable();
 		
+		// Add member
 		try {
 			statement = connect.createStatement();
-			statement.executeUpdate(update);
+			statement.executeUpdate(query);
 			
+			// Add member profile
 			TblProfile profile = new TblProfile();
 			profile.addProfile(mbr);
 			
