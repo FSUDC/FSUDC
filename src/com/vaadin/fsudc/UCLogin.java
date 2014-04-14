@@ -139,7 +139,7 @@ public class UCLogin {
 		Session session = Session.getDefaultInstance(prop,
 				new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication("fsudc2014@outlook.com","BenAliciaMelissa");
+						return new PasswordAuthentication("Insert Email Here","Insert Password Here");
 					}
 				});
 
@@ -147,7 +147,7 @@ public class UCLogin {
 	    try{
 	    	Message msg = new MimeMessage(session);
 	    	
-	    	msg.setFrom(new InternetAddress("fsudc2014@outlook.com"));
+	    	msg.setFrom(new InternetAddress("Insert Email Here"));
 	    	
 	    	msg.addRecipient(Message.RecipientType.TO,
 	    			new InternetAddress(to));
