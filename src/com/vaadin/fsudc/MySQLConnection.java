@@ -21,7 +21,7 @@ public class MySQLConnection {
 	  private static MySQLConnection mysql = new MySQLConnection();
     private static final String URL = "jdbc:mysql://localhost:3306/fsudc";
     private static final String USER = "root";
-    private static final String PASSWORD = "root";
+    private static final String PASSWORD = "*****";
     private static final String DRIVER_CLASS = "com.mysql.jdbc.Driver"; 
     
     private MySQLConnection () {
